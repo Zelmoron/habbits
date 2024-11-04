@@ -15,7 +15,8 @@ import (
 	"gorm.io/gorm"
 )
 
-var jwtSecretKey = []byte("very-secret-key") // Убедитесь, что этот ключ хранится в безопасном месте
+var jwtSecretKey = []byte("very-secret-key")
+
 const (
 	contextKeyUser = "user"
 )
@@ -184,6 +185,7 @@ func MainPage(c *fiber.Ctx) error {
 }
 
 func GetHabits(c *fiber.Ctx) error {
+	//ПОлучаем привычку
 	token := c.Context().Value(contextKeyUser).(*jwt.Token)
 	claims := token.Claims.(jwt.MapClaims)
 	id, ok := claims["sub"].(string)
@@ -203,6 +205,7 @@ func GetHabits(c *fiber.Ctx) error {
 }
 
 func AddHabits(c *fiber.Ctx) error {
+	//Добавляем привычку
 	token := c.Context().Value(contextKeyUser).(*jwt.Token)
 	claims := token.Claims.(jwt.MapClaims)
 	id, ok := claims["sub"].(string)
@@ -231,6 +234,7 @@ func AddHabits(c *fiber.Ctx) error {
 }
 
 func UpdateHabits(c *fiber.Ctx) error {
+	//Обновить день у привычки
 	var habit HabitRequest
 	// Чтение тела запроса
 	if err := c.BodyParser(&habit); err != nil {
